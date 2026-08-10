@@ -125,7 +125,7 @@ export default function DashboardPage() {
   }, [])
 
   const handleReset = async () => {
-    if (!confirm('Reset semua suara? Ini akan menghapus semua data voting (hanya testing lokal).')) return
+    if (!confirm('Reset semua suara? Ini akan menghapus semua data voting secara permanen.')) return
     setResetting(true)
     try {
       await fetch('/api/admin/reset', { method: 'POST' })
@@ -252,17 +252,15 @@ export default function DashboardPage() {
               🗂️ Mode Lokal
             </div>
           )}
-          {isLocal && (
-            <button
-              id="reset-votes-btn"
-              onClick={handleReset}
-              disabled={resetting}
-              className="btn btn-ghost btn-sm"
-              style={{ color: '#E74C3C', borderColor: 'rgba(231,76,60,0.3)', fontSize: 12 }}
-            >
-              {resetting ? '...' : '🔄 Reset Suara'}
-            </button>
-          )}
+          <button
+            id="reset-votes-btn"
+            onClick={handleReset}
+            disabled={resetting}
+            className="btn btn-ghost btn-sm"
+            style={{ color: '#E74C3C', borderColor: 'rgba(231,76,60,0.3)', fontSize: 12 }}
+          >
+            {resetting ? '...' : '🔄 Reset Suara'}
+          </button>
           <button
             onClick={() => setShowPwModal(true)}
             className="btn btn-ghost btn-sm"
