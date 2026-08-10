@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS candidates (
   id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   candidate_number   INT NOT NULL UNIQUE,
   chairman_name      VARCHAR(100) NOT NULL,
-  vice_chairman_name VARCHAR(100) NOT NULL,
   photo_url          TEXT,
   vision_mission     TEXT,
   created_at         TIMESTAMPTZ NOT NULL DEFAULT NOW()
