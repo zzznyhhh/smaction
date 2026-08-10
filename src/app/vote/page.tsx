@@ -337,9 +337,9 @@ export default function VotePage() {
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
-        const res = await fetch('/api/results')
+        const res = await fetch('/api/candidates')
         const data = await res.json()
-        setCandidates(data.candidates || [])
+        setCandidates(data || [])
       } catch {
         setError('Gagal memuat data kandidat')
       } finally {
