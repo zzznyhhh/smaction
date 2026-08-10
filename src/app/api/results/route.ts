@@ -29,7 +29,7 @@ export async function GET() {
       .order('candidate_number')
 
     if (!candidates) {
-      return NextResponse.json({ error: 'Gagal mengambil data kandidat' }, { status: 500 })
+      return NextResponse.json({ error: 'Gagal mengambil data kandidat', detail: 'candidates is null' }, { status: 500 })
     }
 
     // Hitung suara per kandidat
@@ -69,10 +69,10 @@ export async function GET() {
       participationRate,
       candidates: candidatesWithVotes,
     })
-  } catch (err) {
+  } catch (err: any) {
     console.error('Results error:', err)
     return NextResponse.json(
-      { error: 'Terjadi kesalahan server' },
+      { error: 'Terjadi kesalahan server', detail: err?.message || String(err) },
       { status: 500 }
     )
   }
