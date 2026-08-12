@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'E-Voting OSIS | Pemilihan Ketua OSIS',
+  title: 'SMACTION | Pemilihan Ketua OSIS',
   description:
     'Platform e-voting digital untuk pemilihan Ketua OSIS yang aman, anonim, dan transparan dengan hasil suara real-time.',
   keywords: ['e-voting', 'OSIS', 'pemilihan', 'ketua OSIS', 'digital voting'],
