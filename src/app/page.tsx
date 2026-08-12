@@ -94,15 +94,15 @@ export default function LoginPage() {
             className="animate-float"
             style={{
               width: 80, height: 80, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #0B2341 0%, #1a3a6b 100%)',
+              background: '#ffffff',
               border: '3px solid #EEF2F9',
               boxShadow: '0 8px 24px rgba(11,35,65,0.2)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '2rem',
               marginBottom: 16,
+              overflow: 'hidden',
             }}
           >
-            🗳️
+            <img src="/icon.png" alt="Logo SMACTION" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
 
           <span
