@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   description:
     'Platform e-voting digital untuk pemilihan Ketua OSIS yang aman, anonim, dan transparan dengan hasil suara real-time.',
   keywords: ['e-voting', 'OSIS', 'pemilihan', 'ketua OSIS', 'digital voting'],
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
