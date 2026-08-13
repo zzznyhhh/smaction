@@ -333,6 +333,21 @@ export default function VotePage() {
   const [loading, setLoading] = useState(false)
   const [fetchLoading, setFetchLoading] = useState(true)
   const [error, setError] = useState('')
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {})
+    } else {
+      document.exitFullscreen().catch(() => {})
+    }
+  }
+
+  useEffect(() => {
+    const onFsChange = () => setIsFullscreen(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', onFsChange)
+    return () => document.removeEventListener('fullscreenchange', onFsChange)
+  }, [])
 
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -440,6 +455,33 @@ export default function VotePage() {
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16A34A', display: 'inline-block' }} />
               Sesi Aktif
             </div>
+            {/* Fullscreen button */}
+            <button
+              onClick={toggleFullscreen}
+              title={isFullscreen ? 'Keluar Fullscreen' : 'Fullscreen'}
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                width: 32, height: 32,
+                borderRadius: 8,
+                border: '1px solid var(--color-border)',
+                background: 'var(--color-surface)',
+                cursor: 'pointer',
+                fontSize: 15,
+                color: 'var(--color-text-secondary)',
+                transition: 'all 0.2s ease',
+                flexShrink: 0,
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.background = 'var(--color-surface-3)'
+                ;(e.currentTarget as HTMLElement).style.color = 'var(--color-primary)'
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.background = 'var(--color-surface)'
+                ;(e.currentTarget as HTMLElement).style.color = 'var(--color-text-secondary)'
+              }}
+            >
+              {isFullscreen ? '🗗' : '⛶'}
+            </button>
           </div>
         </div>
       </header>
