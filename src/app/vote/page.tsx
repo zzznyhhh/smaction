@@ -457,7 +457,7 @@ export default function VotePage() {
         {/* Page title */}
         <div className="animate-fade-in-up" style={{ marginBottom: 24, textAlign: 'center' }}>
           <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--color-primary)', marginBottom: 6, letterSpacing: '-0.02em' }}>
-            Pilih <span className="text-gradient-gold">Pasangan Calon</span>
+            Pilih <span style={{ color: 'var(--color-accent)' }}>Pasangan Calon</span>
           </h1>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, lineHeight: 1.5 }}>
             Pilih satu pasangan calon yang Anda percaya. Klik kartu untuk memilih.
