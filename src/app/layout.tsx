@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import FullscreenButton from '@/components/FullscreenButton'
 
 export const metadata: Metadata = {
   title: 'SMACTION | Pemilihan Ketua OSIS',
@@ -16,7 +17,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="id" className="h-full">
-      <body className="min-h-full flex flex-col antialiased">{children}</body>
+      <body className="min-h-full flex flex-col antialiased">
+        {children}
+        <FullscreenButton />
+      </body>
     </html>
   )
 }
