@@ -43,7 +43,7 @@ export default function LoginPage() {
   return (
     <main
       className="min-h-screen flex flex-col items-center justify-center px-4"
-      style={{ background: 'linear-gradient(160deg, #F4F6FA 0%, #EEF2FA 100%)' }}
+      style={{ background: 'linear-gradient(160deg, #FDF6F0 0%, #FDEEE8 100%)' }}
     >
       {/* Decorative background blobs */}
       <div
@@ -54,13 +54,13 @@ export default function LoginPage() {
         <div style={{
           position: 'absolute', top: -120, left: -120,
           width: 480, height: 480, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(11,35,65,0.07) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(179,44,26,0.08) 0%, transparent 70%)',
           filter: 'blur(40px)',
         }} />
         <div style={{
           position: 'absolute', bottom: -80, right: -80,
           width: 400, height: 400, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(212,160,23,0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(254,127,66,0.12) 0%, transparent 70%)',
           filter: 'blur(50px)',
         }} />
       </div>
@@ -75,15 +75,15 @@ export default function LoginPage() {
           background: '#FFFFFF',
           borderRadius: 20,
           padding: '40px 36px 36px',
-          border: '1px solid #DDE3EE',
-          boxShadow: '0 4px 24px rgba(15,23,42,0.08), 0 1px 3px rgba(15,23,42,0.05)',
+          border: '1px solid var(--color-border)',
+          boxShadow: '0 4px 24px rgba(42,22,23,0.08), 0 1px 3px rgba(42,22,23,0.05)',
         }}
       >
         {/* Top accent bar */}
         <div style={{
           position: 'absolute', top: 0, left: '15%', right: '15%',
           height: 3,
-          background: 'linear-gradient(90deg, transparent, #D4A017, transparent)',
+          background: 'linear-gradient(90deg, transparent, #FE7F42, transparent)',
           borderRadius: '0 0 2px 2px',
         }} />
 
@@ -95,8 +95,8 @@ export default function LoginPage() {
             style={{
               width: 80, height: 80, borderRadius: '50%',
               background: '#ffffff',
-              border: '3px solid #EEF2F9',
-              boxShadow: '0 8px 24px rgba(11,35,65,0.2)',
+              border: '3px solid #FDEEE8',
+              boxShadow: '0 8px 24px rgba(179,44,26,0.15)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               marginBottom: 16,
               overflow: 'hidden',
@@ -111,7 +111,7 @@ export default function LoginPage() {
           >
             <span style={{
               width: 6, height: 6, borderRadius: '50%',
-              background: '#D4A017', display: 'inline-block',
+              background: '#FE7F42', display: 'inline-block',
             }} />
             Pemilihan Ketua OSIS
           </span>
@@ -120,8 +120,7 @@ export default function LoginPage() {
             className="heading-lg text-center animate-fade-in delay-200"
             style={{ color: 'var(--color-primary)', marginBottom: 6 }}
           >
-            E-Voting{' '}
-            <span className="text-gradient-gold">OSIS</span>
+            SMACTION
           </h1>
           <p
             className="text-center animate-fade-in delay-300"
@@ -200,7 +199,7 @@ export default function LoginPage() {
           >
             {loading ? (
               <>
-                <span className="spinner" style={{ width: 18, height: 18, borderTopColor: '#0B2341' }} />
+                <span className="spinner" style={{ width: 18, height: 18, borderTopColor: '#ffffff' }} />
                 Memverifikasi...
               </>
             ) : (
