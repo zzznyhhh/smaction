@@ -404,10 +404,10 @@ export default function VotePage() {
         >
           {/* Left: Brand */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: '1.4rem' }}>🗳️</span>
+            <img src="/icon.png" alt="Logo" style={{ width: 32, height: 32, borderRadius: 8, objectFit: 'cover' }} />
             <div>
-              <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--color-primary)', lineHeight: 1.1 }}>
-                E-Voting OSIS
+              <div style={{ fontWeight: 900, fontSize: 15, color: 'var(--color-primary)', lineHeight: 1.1, letterSpacing: '-0.01em' }}>
+                SMACTION
               </div>
               <div style={{ fontSize: 11, color: 'var(--color-text-muted)', lineHeight: 1 }}>
                 Bilik Suara Digital
