@@ -32,20 +32,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           style={{ padding: '20px 16px 16px', borderBottom: '1px solid var(--color-border)' }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div
-              style={{
-                width: 36, height: 36,
-                borderRadius: 'var(--radius-md)',
-                background: 'var(--gradient-primary)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '1.1rem', flexShrink: 0,
-              }}
-            >
-              🗳️
-            </div>
+            <img
+              src="/icon.png"
+              alt="Logo"
+              style={{ width: 36, height: 36, borderRadius: 'var(--radius-md)', objectFit: 'cover', flexShrink: 0 }}
+            />
             <div>
               <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--color-primary)' }}>
-                E-Voting
+                SMACTION
               </div>
               <div style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>Admin Panel</div>
             </div>
@@ -72,11 +66,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   textDecoration: 'none',
                   fontSize: 14,
                   fontWeight: isActive ? 700 : 500,
-                  color: isActive ? '#0B2341' : 'var(--color-text-secondary)',
+                  color: isActive ? '#FFFFFF' : 'var(--color-text-secondary)',
                   background: isActive
-                    ? 'linear-gradient(135deg, #FEF9C3 0%, #FEF3C7 100%)'
+                    ? 'linear-gradient(135deg, #FE7F42 0%, #B32C1A 100%)'
                     : 'transparent',
-                  border: isActive ? '1px solid #FDE68A' : '1px solid transparent',
+                  border: isActive ? '1px solid #B32C1A' : '1px solid transparent',
                   transition: 'all 0.2s ease',
                   whiteSpace: 'nowrap',
                 }}

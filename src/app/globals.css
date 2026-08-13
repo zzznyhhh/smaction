@@ -3,64 +3,66 @@
 @import "tailwindcss";
 
 /* =============================================
-   DESIGN TOKENS — LIGHT MODE
+   DESIGN TOKENS — WARM PALETTE
    ============================================= */
 :root {
-  /* Brand: Navy Blue */
-  --color-primary:       #0B2341;
-  --color-primary-dark:  #071829;
-  --color-primary-light: #1a3a6b;
-  --color-primary-mid:   #0d2d56;
+  /* Brand: Deep Red / Maroon */
+  --color-primary:       #B32C1A;
+  --color-primary-dark:  #2A1617;
+  --color-primary-light: #7A4B47;
+  --color-primary-mid:   #8a3522;
 
-  /* Brand: Gold */
-  --color-accent:        #D4A017;
-  --color-accent-light:  #E5B20D;
-  --color-accent-dark:   #B8860B;
-  --color-accent-glow:   rgba(212, 160, 23, 0.25);
+  /* Brand: Orange (CTA accent) */
+  --color-accent:        #FE7F42;
+  --color-accent-light:  #ff9660;
+  --color-accent-dark:   #e06830;
+  --color-accent-glow:   rgba(254, 127, 66, 0.25);
+
+  /* Brand: Yellow (highlight) */
+  --color-yellow:        #FFFB97;
+  --color-yellow-dark:   #f5ef6a;
 
   /* Supporting */
-  --color-teal:          #0E7C7B;
-  --color-teal-light:    #16a3a2;
-  --color-silver:        #CBD5E1;
-  --color-silver-light:  #F1F5F9;
+  --color-brown:         #7A4B47;
+  --color-dark:          #2A1617;
 
-  /* Light Mode Surface */
-  --color-bg:            #F4F6FA;
+  /* Surfaces */
+  --color-bg:            #FDF6F0;
   --color-surface:       #FFFFFF;
-  --color-surface-2:     #F8FAFC;
-  --color-surface-3:     #EEF2F7;
-  --color-border:        #DDE3EE;
-  --color-border-strong: #B8C4D6;
+  --color-surface-2:     #FEF9F7;
+  --color-surface-3:     #FDEEE8;
+  --color-border:        #EDD5CC;
+  --color-border-strong: #C8917F;
 
   /* Text */
-  --color-text-primary:   #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted:     #94A3B8;
+  --color-text-primary:   #2A1617;
+  --color-text-secondary: #7A4B47;
+  --color-text-muted:     #B08070;
 
-  /* Cards / Glass → solid-white with border */
+  /* Cards */
   --glass-bg:            #FFFFFF;
-  --glass-bg-hover:      #FAFBFD;
-  --glass-border:        #DDE3EE;
-  --glass-shadow:        0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+  --glass-bg-hover:      #FEF9F7;
+  --glass-border:        #EDD5CC;
+  --glass-shadow:        0 1px 3px rgba(42, 22, 23, 0.06), 0 4px 16px rgba(42, 22, 23, 0.04);
 
   /* Gradients */
-  --gradient-primary:      linear-gradient(135deg, #1a3a6b 0%, #0B2341 100%);
-  --gradient-accent:       linear-gradient(135deg, #E5B20D 0%, #B8860B 100%);
-  --gradient-gold-shine:   linear-gradient(135deg, #f0c82a 0%, #D4A017 40%, #B8860B 100%);
-  --gradient-surface:      linear-gradient(160deg, #FFFFFF 0%, #F4F6FA 100%);
-  --gradient-hero:         linear-gradient(135deg, #EEF2FF 0%, #F0F4FF 100%);
-  --gradient-navy-gold:    linear-gradient(135deg, #0B2341 0%, #1a3a6b 100%);
-  --gradient-glow-gold:    radial-gradient(ellipse at center, rgba(212, 160, 23, 0.15) 0%, transparent 70%);
+  --gradient-primary:      linear-gradient(135deg, #B32C1A 0%, #2A1617 100%);
+  --gradient-accent:       linear-gradient(135deg, #FE7F42 0%, #e06830 100%);
+  --gradient-gold-shine:   linear-gradient(135deg, #FFFB97 0%, #FE7F42 50%, #B32C1A 100%);
+  --gradient-surface:      linear-gradient(160deg, #FFFFFF 0%, #FDF6F0 100%);
+  --gradient-hero:         linear-gradient(135deg, #FDF6F0 0%, #FDEEE8 100%);
+  --gradient-navy-gold:    linear-gradient(135deg, #B32C1A 0%, #2A1617 100%);
+  --gradient-glow-gold:    radial-gradient(ellipse at center, rgba(254, 127, 66, 0.15) 0%, transparent 70%);
 
   /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
-  --shadow-lg: 0 8px 32px rgba(15, 23, 42, 0.10), 0 2px 8px rgba(15, 23, 42, 0.06);
-  --shadow-xl: 0 20px 60px rgba(15, 23, 42, 0.12);
-  --shadow-glow-gold:  0 0 24px rgba(212, 160, 23, 0.25);
-  --shadow-glow-navy:  0 0 24px rgba(11, 35, 65, 0.15);
-  --shadow-glow-accent:0 4px 20px rgba(212, 160, 23, 0.25);
+  --shadow-xs: 0 1px 2px rgba(42, 22, 23, 0.04);
+  --shadow-sm: 0 1px 3px rgba(42, 22, 23, 0.06), 0 2px 8px rgba(42, 22, 23, 0.04);
+  --shadow-md: 0 4px 16px rgba(42, 22, 23, 0.08), 0 1px 3px rgba(42, 22, 23, 0.05);
+  --shadow-lg: 0 8px 32px rgba(42, 22, 23, 0.10), 0 2px 8px rgba(42, 22, 23, 0.06);
+  --shadow-xl: 0 20px 60px rgba(42, 22, 23, 0.12);
+  --shadow-glow-gold:  0 0 24px rgba(254, 127, 66, 0.3);
+  --shadow-glow-navy:  0 0 24px rgba(179, 44, 26, 0.2);
+  --shadow-glow-accent:0 4px 20px rgba(254, 127, 66, 0.35);
 
   /* Border radius */
   --radius-sm:   6px;
@@ -139,30 +141,30 @@ body {
   white-space: nowrap;
 }
 
-/* Gold / primary CTA */
+/* Orange / primary CTA */
 .btn-primary {
-  background: var(--gradient-gold-shine);
-  color: #0B2341;
+  background: linear-gradient(135deg, #FE7F42 0%, #B32C1A 100%);
+  color: #FFFFFF;
   border-color: transparent;
-  box-shadow: 0 2px 8px rgba(212, 160, 23, 0.35);
+  box-shadow: 0 2px 8px rgba(254, 127, 66, 0.35);
   font-weight: 700;
 }
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(212, 160, 23, 0.45);
+  box-shadow: 0 6px 20px rgba(254, 127, 66, 0.45);
 }
 .btn-primary:active:not(:disabled) { transform: translateY(0); }
 
-/* Navy / secondary */
+/* Deep red / secondary */
 .btn-accent {
   background: var(--gradient-primary);
-  color: #E5B20D;
-  border-color: rgba(11, 35, 65, 0.2);
-  box-shadow: 0 2px 8px rgba(11, 35, 65, 0.2);
+  color: #FFFB97;
+  border-color: rgba(179, 44, 26, 0.2);
+  box-shadow: 0 2px 8px rgba(179, 44, 26, 0.2);
 }
 .btn-accent:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(11, 35, 65, 0.3);
+  box-shadow: 0 6px 20px rgba(179, 44, 26, 0.35);
 }
 
 /* Ghost */
@@ -217,8 +219,8 @@ body {
   font-weight: 400;
 }
 .input-field:focus {
-  border-color: var(--color-accent-light);
-  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.12);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(254, 127, 66, 0.15);
 }
 .input-field.error {
   border-color: #EF4444;
@@ -251,13 +253,13 @@ body {
 }
 
 .text-gradient-gold {
-  background: var(--gradient-gold-shine);
+  background: linear-gradient(135deg, #FFFB97 0%, #FE7F42 60%, #B32C1A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .text-gradient-red {
-  background: var(--gradient-gold-shine);
+  background: linear-gradient(135deg, #FE7F42 0%, #B32C1A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -298,9 +300,9 @@ body {
   border-color: var(--color-border);
 }
 .badge-navy {
-  background: #EEF2F9;
-  color: var(--color-primary);
-  border-color: #C7D4E8;
+  background: #FDEEE8;
+  color: #B32C1A;
+  border-color: #F0C4B0;
 }
 
 /* =============================================
@@ -330,8 +332,8 @@ body {
   to { transform: rotate(360deg); }
 }
 @keyframes goldPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0); }
-  50%       { box-shadow: 0 0 0 6px rgba(212, 160, 23, 0.12); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(254, 127, 66, 0); }
+  50%       { box-shadow: 0 0 0 6px rgba(254, 127, 66, 0.15); }
 }
 @keyframes confettiFall {
   0%   { transform: translateY(-100vh) rotate(0deg);   opacity: 1; }
@@ -374,7 +376,7 @@ body {
    ============================================= */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--color-surface-2); }
-::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-accent-dark); }
 
 /* =============================================
@@ -451,9 +453,9 @@ body {
    CANDIDATE CARD SELECTED STATE
    ============================================= */
 .candidate-card-selected {
-  border-color: var(--color-accent-light) !important;
-  background: #FFFBEB !important;
-  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.2), var(--shadow-md) !important;
+  border-color: var(--color-accent) !important;
+  background: #FFF3EE !important;
+  box-shadow: 0 0 0 3px rgba(254, 127, 66, 0.2), var(--shadow-md) !important;
 }
 
 /* =============================================
@@ -461,7 +463,7 @@ body {
    ============================================= */
 .gold-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 160, 23, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(254, 127, 66, 0.5), transparent);
   margin: 16px 0;
 }
 .divider {
@@ -474,7 +476,7 @@ body {
    EMBLEM
    ============================================= */
 .emblem-ring {
-  border: 2px solid rgba(212, 160, 23, 0.35);
+  border: 2px solid rgba(254, 127, 66, 0.35);
   border-radius: 50%;
   animation: goldPulse 3s ease infinite;
 }
@@ -518,16 +520,16 @@ body {
 /* =============================================
    STATS GRID — RESPONSIVE
    ============================================= */
-.stats-flex { display: flex; flex-wrap: wrap; gap: 12px; }
+.stats-flex { display: flex; flex-wrap: wrap; gap: 16px; }
 .stats-flex > * { flex: 1 1 150px; min-width: 130px; }
 @media (max-width: 480px) {
-  .stats-flex > * { flex: 1 1 calc(50% - 6px); min-width: 0; }
+  .stats-flex > * { flex: 1 1 calc(50% - 8px); min-width: 0; }
 }
 
 /* =============================================
    CHARTS — RESPONSIVE
    ============================================= */
-.charts-flex { display: flex; flex-wrap: wrap; gap: 16px; }
+.charts-flex { display: flex; flex-wrap: wrap; gap: 20px; }
 .charts-flex .chart-main { flex: 2 1 400px; min-width: 280px; }
 .charts-flex .chart-side { flex: 1 1 220px;  min-width: 200px; }
 @media (max-width: 700px) {
@@ -590,9 +592,9 @@ body {
 /* =============================================
    RESPONSIVE PADDING
    ============================================= */
-.page-padding { padding: 20px 16px; }
-@media (min-width: 640px)  { .page-padding { padding: 28px 24px; } }
-@media (min-width: 1024px) { .page-padding { padding: 32px; } }
+.page-padding { padding: 24px 16px; }
+@media (min-width: 640px)  { .page-padding { padding: 32px 28px; } }
+@media (min-width: 1024px) { .page-padding { padding: 36px 40px; } }
 
 /* =============================================
    TABLE RESPONSIVE

@@ -29,7 +29,7 @@ interface ResultData {
   }[]
 }
 
-const COLORS = ['#C0392B', '#F39C12', '#3498DB', '#2ECC71', '#9B59B6']
+const COLORS = ['#B32C1A', '#FE7F42', '#FFFB97', '#7A4B47', '#2A1617']
 
 function StatCard({
   icon,
@@ -95,7 +95,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         }}
       >
         <p style={{ fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: 4 }}>{label}</p>
-        <p style={{ color: '#C0392B', fontWeight: 600 }}>{payload[0].value} suara</p>
+        <p style={{ color: '#FE7F42', fontWeight: 600 }}>{payload[0].value} suara</p>
       </div>
     )
   }
@@ -209,7 +209,7 @@ export default function DashboardPage() {
       ]
     : []
 
-  const PIE_COLORS = ['#D4A017', '#E2E8F0']
+  const PIE_COLORS = ['#FE7F42', '#EDD5CC']
 
   if (loading) {
     return (
@@ -282,28 +282,28 @@ export default function DashboardPage() {
           label="Total DPT"
           value={data?.totalVoters || 0}
           sub="Pemilih terdaftar"
-          accent="#3498DB"
+          accent="#B32C1A"
         />
         <StatCard
           icon="🗳️"
           label="Suara Masuk"
           value={data?.totalVotes || 0}
           sub="Suara valid"
-          accent="#E5B20D"
+          accent="#FE7F42"
         />
         <StatCard
           icon="😶"
           label="Golput"
           value={data?.golput || 0}
           sub="Belum memilih"
-          accent="#B8860B"
+          accent="#7A4B47"
         />
         <StatCard
           icon="📈"
           label="Partisipasi"
           value={`${data?.participationRate || 0}%`}
           sub="Tingkat kehadiran"
-          accent="#2ED573"
+          accent="#B32C1A"
         />
       </div>
 
