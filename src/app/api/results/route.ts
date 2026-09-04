@@ -5,76 +5,81 @@ import { isLocalMode, localGetResults } from '@/lib/localDb'
 export async function GET() {
   try {
     if (isLocalMode()) {
-      // ── LOCAL MODE ──
       return NextResponse.json(localGetResults())
     }
 
-    // ── SUPABASE MODE ──
     const supabase = createServerClient()
 
-    // Ambil semua data sekaligus (3 query paralel, bukan N+1)
-    const [
-      { count: totalVoters },
-      { count: totalVotes },
-      { data: candidates },
-      { data: voteCounts },
-    ] = await Promise.all([
-      supabase.from('voters').select('*', { count: 'exact', head: true }),
-      supabase.from('votes').select('*', { count: 'exact', head: true }),
+    // Satu batch: ambil candidates + semua votes sekaligus (tanpa HEAD request)
+    const [candidatesRes, votesRes, votersRes] = await Promise.all([
       supabase
         .from('candidates')
         .select('id, candidate_number, chairman_name, photo_url, vision_mission')
         .order('candidate_number'),
-      // Aggregasi suara per kandidat dalam satu query
       supabase.from('votes').select('candidate_id'),
+      supabase.from('voters').select('id'),
     ])
 
-    if (!candidates) {
+    // Log errors untuk debugging
+    if (candidatesRes.error) {
+      console.error('Candidates error:', candidatesRes.error)
       return NextResponse.json(
-        { error: 'Gagal mengambil data kandidat', detail: 'candidates is null' },
+        { error: 'Gagal ambil kandidat', detail: candidatesRes.error.message },
+        { status: 500 },
+      )
+    }
+    if (votesRes.error) {
+      console.error('Votes error:', votesRes.error)
+      return NextResponse.json(
+        { error: 'Gagal ambil votes', detail: votesRes.error.message },
+        { status: 500 },
+      )
+    }
+    if (votersRes.error) {
+      console.error('Voters error:', votersRes.error)
+      return NextResponse.json(
+        { error: 'Gagal ambil voters', detail: votersRes.error.message },
         { status: 500 },
       )
     }
 
-    // Hitung vote per kandidat dari hasil satu query (in-memory, sangat cepat)
+    const candidates = candidatesRes.data ?? []
+    const votes = votesRes.data ?? []
+    const voters = votersRes.data ?? []
+
+    const totalVoters = voters.length
+    const totalVotes = votes.length
+
+    // Hitung suara per kandidat in-memory (sangat cepat)
     const voteMap: Record<string, number> = {}
-    if (voteCounts) {
-      for (const row of voteCounts) {
-        voteMap[row.candidate_id] = (voteMap[row.candidate_id] || 0) + 1
-      }
+    for (const vote of votes) {
+      voteMap[vote.candidate_id] = (voteMap[vote.candidate_id] || 0) + 1
     }
 
-    const tvo = totalVotes || 0
-    const tv = totalVoters || 0
-
-    const candidatesWithVotes = candidates.map((candidate) => {
-      const votes = voteMap[candidate.id] || 0
-      const percentage =
-        tvo > 0 ? Math.round((votes / tvo) * 100 * 10) / 10 : 0
-
+    const candidatesWithVotes = candidates.map((c) => {
+      const v = voteMap[c.id] || 0
       return {
-        id: candidate.id,
-        candidateNumber: candidate.candidate_number,
-        chairmanName: candidate.chairman_name,
-        photoUrl: candidate.photo_url,
-        visionMission: candidate.vision_mission,
-        votes,
-        percentage,
+        id: c.id,
+        candidateNumber: c.candidate_number,
+        chairmanName: c.chairman_name,
+        photoUrl: c.photo_url,
+        visionMission: c.vision_mission,
+        votes: v,
+        percentage: totalVotes > 0 ? Math.round((v / totalVotes) * 1000) / 10 : 0,
       }
     })
 
-    const golput = tv - tvo
-    const participationRate = tv > 0 ? Math.round((tvo / tv) * 100 * 10) / 10 : 0
+    const golput = totalVoters - totalVotes
 
     return NextResponse.json({
-      totalVoters: tv,
-      totalVotes: tvo,
+      totalVoters,
+      totalVotes,
       golput: golput > 0 ? golput : 0,
-      participationRate,
+      participationRate: totalVoters > 0 ? Math.round((totalVotes / totalVoters) * 1000) / 10 : 0,
       candidates: candidatesWithVotes,
     })
   } catch (err: any) {
-    console.error('Results error:', err)
+    console.error('Results fatal error:', err)
     return NextResponse.json(
       { error: 'Terjadi kesalahan server', detail: err?.message || String(err) },
       { status: 500 },
