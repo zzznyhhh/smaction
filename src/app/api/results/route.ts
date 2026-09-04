@@ -5,84 +5,75 @@ import { isLocalMode, localGetResults } from '@/lib/localDb'
 export async function GET() {
   try {
     if (isLocalMode()) {
+      // ── LOCAL MODE ──
       return NextResponse.json(localGetResults())
     }
 
+    // ── SUPABASE MODE ──
     const supabase = createServerClient()
 
-    // Satu batch: ambil candidates + semua votes sekaligus (tanpa HEAD request)
-    const [candidatesRes, votesRes, votersRes] = await Promise.all([
-      supabase
-        .from('candidates')
-        .select('id, candidate_number, chairman_name, photo_url, vision_mission')
-        .order('candidate_number'),
-      supabase.from('votes').select('candidate_id'),
-      supabase.from('voters').select('nisn'),
-    ])
+    // Total DPT
+    const { count: totalVoters } = await supabase
+      .from('voters')
+      .select('*', { count: 'exact', head: true })
 
-    // Log errors untuk debugging
-    if (candidatesRes.error) {
-      console.error('Candidates error:', candidatesRes.error)
-      return NextResponse.json(
-        { error: 'Gagal ambil kandidat', detail: candidatesRes.error.message },
-        { status: 500 },
-      )
-    }
-    if (votesRes.error) {
-      console.error('Votes error:', votesRes.error)
-      return NextResponse.json(
-        { error: 'Gagal ambil votes', detail: votesRes.error.message },
-        { status: 500 },
-      )
-    }
-    if (votersRes.error) {
-      console.error('Voters error:', votersRes.error)
-      return NextResponse.json(
-        { error: 'Gagal ambil voters', detail: votersRes.error.message },
-        { status: 500 },
-      )
+    // Total suara masuk
+    const { count: totalVotes } = await supabase
+      .from('votes')
+      .select('*', { count: 'exact', head: true })
+
+    // Suara per kandidat
+    const { data: candidates } = await supabase
+      .from('candidates')
+      .select('id, candidate_number, chairman_name, photo_url, vision_mission')
+      .order('candidate_number')
+
+    if (!candidates) {
+      return NextResponse.json({ error: 'Gagal mengambil data kandidat' }, { status: 500 })
     }
 
-    const candidates = candidatesRes.data ?? []
-    const votes = votesRes.data ?? []
-    const voters = votersRes.data ?? []
+    // Hitung suara per kandidat
+    const candidatesWithVotes = await Promise.all(
+      candidates.map(async (candidate) => {
+        const { count: voteCount } = await supabase
+          .from('votes')
+          .select('*', { count: 'exact', head: true })
+          .eq('candidate_id', candidate.id)
 
-    const totalVoters = voters.length
-    const totalVotes = votes.length
+        const votes = voteCount || 0
+        const percentage = (totalVotes || 0) > 0
+          ? Math.round((votes / (totalVotes || 1)) * 100 * 10) / 10
+          : 0
 
-    // Hitung suara per kandidat in-memory (sangat cepat)
-    const voteMap: Record<string, number> = {}
-    for (const vote of votes) {
-      voteMap[vote.candidate_id] = (voteMap[vote.candidate_id] || 0) + 1
-    }
+        return {
+          id: candidate.id,
+          candidateNumber: candidate.candidate_number,
+          chairmanName: candidate.chairman_name,
+          photoUrl: candidate.photo_url,
+          visionMission: candidate.vision_mission,
+          votes,
+          percentage,
+        }
+      })
+    )
 
-    const candidatesWithVotes = candidates.map((c) => {
-      const v = voteMap[c.id] || 0
-      return {
-        id: c.id,
-        candidateNumber: c.candidate_number,
-        chairmanName: c.chairman_name,
-        photoUrl: c.photo_url,
-        visionMission: c.vision_mission,
-        votes: v,
-        percentage: totalVotes > 0 ? Math.round((v / totalVotes) * 1000) / 10 : 0,
-      }
-    })
-
-    const golput = totalVoters - totalVotes
+    const tv = totalVoters || 0
+    const tvo = totalVotes || 0
+    const golput = tv - tvo
+    const participationRate = tv > 0 ? Math.round((tvo / tv) * 100 * 10) / 10 : 0
 
     return NextResponse.json({
-      totalVoters,
-      totalVotes,
+      totalVoters: tv,
+      totalVotes: tvo,
       golput: golput > 0 ? golput : 0,
-      participationRate: totalVoters > 0 ? Math.round((totalVotes / totalVoters) * 1000) / 10 : 0,
+      participationRate,
       candidates: candidatesWithVotes,
     })
-  } catch (err: any) {
-    console.error('Results fatal error:', err)
+  } catch (err) {
+    console.error('Results error:', err)
     return NextResponse.json(
-      { error: 'Terjadi kesalahan server', detail: err?.message || String(err) },
-      { status: 500 },
+      { error: 'Terjadi kesalahan server' },
+      { status: 500 }
     )
   }
 }
