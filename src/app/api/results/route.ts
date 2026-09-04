@@ -17,7 +17,7 @@ export async function GET() {
         .select('id, candidate_number, chairman_name, photo_url, vision_mission')
         .order('candidate_number'),
       supabase.from('votes').select('candidate_id'),
-      supabase.from('voters').select('id'),
+      supabase.from('voters').select('nisn'),
     ])
 
     // Log errors untuk debugging
