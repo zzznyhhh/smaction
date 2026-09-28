@@ -24,6 +24,7 @@ export default function CandidatesPage() {
   // Form State
   const [candidateNumber, setCandidateNumber] = useState('')
   const [chairmanName, setChairmanName] = useState('')
+  const [visionMission, setVisionMission] = useState('')
   const [photoBase64, setPhotoBase64] = useState('')
   
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -49,6 +50,7 @@ export default function CandidatesPage() {
   const resetForm = () => {
     setCandidateNumber('')
     setChairmanName('')
+    setVisionMission('')
     setPhotoBase64('')
     setEditingId(null)
     if (fileInputRef.current) fileInputRef.current.value = ''
@@ -65,6 +67,7 @@ export default function CandidatesPage() {
     setEditingId(c.id)
     setCandidateNumber(String(c.candidate_number))
     setChairmanName(c.chairman_name)
+    setVisionMission(c.vision_mission || '')
     setPhotoBase64(c.photo_url || '')
     setShowModal(true)
   }
@@ -96,8 +99,8 @@ export default function CandidatesPage() {
       const payload = {
         candidate_number: Number(candidateNumber),
         chairman_name: chairmanName,
-        vision_mission: '',
-        photo_url: photoBase64
+        vision_mission: visionMission.trim() || null,
+        photo_url: photoBase64 || null
       }
 
       const url = editingId ? `/api/admin/candidates?id=${editingId}` : '/api/admin/candidates'
@@ -216,8 +219,22 @@ export default function CandidatesPage() {
                   </div>
                 )}
               </div>
-              <div>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 4px 0' }}>{c.chairman_name}</h3>
+                {c.vision_mission && (
+                  <p style={{
+                    margin: 0,
+                    fontSize: 12,
+                    color: 'var(--color-text-secondary)',
+                    lineHeight: 1.5,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}>
+                    {c.vision_mission}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -310,6 +327,45 @@ export default function CandidatesPage() {
                     background: 'var(--color-surface)',
                     outline: 'none',
                     boxSizing: 'border-box',
+                    transition: 'border-color 0.2s',
+                  }}
+                  onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-primary)')}
+                  onBlur={e => (e.currentTarget.style.borderColor = 'var(--color-border)')}
+                />
+              </div>
+
+              {/* Visi & Misi */}
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: 'var(--color-text-muted)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.07em',
+                  marginBottom: 8,
+                }}>
+                  Visi &amp; Misi <span style={{ fontWeight: 400, textTransform: 'none', fontSize: 11 }}>(opsional)</span>
+                </label>
+                <textarea
+                  value={visionMission}
+                  onChange={e => setVisionMission(e.target.value)}
+                  rows={4}
+                  placeholder="Tuliskan visi dan misi paslon..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: '1.5px solid var(--color-border)',
+                    borderRadius: 8,
+                    fontSize: 13,
+                    fontWeight: 400,
+                    color: 'var(--color-text-primary)',
+                    background: 'var(--color-surface)',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    resize: 'vertical',
+                    lineHeight: 1.55,
+                    fontFamily: 'inherit',
                     transition: 'border-color 0.2s',
                   }}
                   onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-primary)')}

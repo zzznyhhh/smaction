@@ -70,7 +70,7 @@ function ConfirmModal({
               Konfirmasi Pilihan
             </h2>
             <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, lineHeight: 1.5 }}>
-              Anda akan memilih pasangan calon berikut:
+              Anda akan memilih kandidat berikut:
             </p>
           </div>
 
@@ -87,7 +87,7 @@ function ConfirmModal({
             }}
           >
             <div style={{ fontSize: 11, fontWeight: 700, color: c.accent, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>
-              Paslon Nomor {candidate.candidateNumber}
+              Kandidat Nomor {candidate.candidateNumber}
             </div>
             <div style={{ fontWeight: 800, fontSize: 16, color: 'var(--color-text-primary)', marginBottom: 2 }}>
               {candidate.chairmanName}
@@ -238,7 +238,7 @@ function CandidateCard({
           }}
         >
           <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-            Paslon
+            No.
           </span>
           <span style={{ fontSize: 15, fontWeight: 900, color: '#fff' }}>
             {candidate.candidateNumber}
@@ -292,15 +292,45 @@ function CandidateCard({
           transition: 'background 0.2s ease',
         }}
       >
-        <div style={{
-          fontSize: 11, fontWeight: 700, color: c.accent,
-          textTransform: 'uppercase', letterSpacing: '0.06em',
-        }}>
-          Calon Ketua OSIS
-        </div>
         <div style={{ fontSize: 15, fontWeight: 800, color: '#0F172A', lineHeight: 1.3 }}>
           {candidate.chairmanName}
         </div>
+
+        {/* ── Visi & Misi ── */}
+        {candidate.visionMission && (
+          <div
+            style={{
+              marginTop: 4,
+              paddingTop: 8,
+              borderTop: `1px dashed ${c.border}`,
+            }}
+          >
+            <div style={{
+              fontSize: 10,
+              fontWeight: 700,
+              color: c.accent,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              marginBottom: 4,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+            }}>
+              <span>📋</span> Visi &amp; Misi
+            </div>
+            <p
+              style={{
+                fontSize: 12,
+                color: '#334155',
+                lineHeight: 1.55,
+                margin: 0,
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              {candidate.visionMission}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* ── Selected footer ── */}
@@ -441,7 +471,7 @@ export default function VotePage() {
                 borderRadius: 999,
                 border: '1px solid var(--color-border)',
               }}>
-                Paslon {selected.candidateNumber} dipilih
+                Kandidat {selected.candidateNumber} dipilih
               </div>
             )}
             <div style={{
@@ -502,7 +532,7 @@ export default function VotePage() {
             Pilih Calon
           </h1>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: 13, lineHeight: 1.5 }}>
-            Pilih satu pasangan calon yang Anda percaya. Klik kartu untuk memilih.
+            Pilih satu kandidat yang Anda percaya. Klik kartu untuk memilih.
           </p>
         </div>
 
@@ -545,8 +575,9 @@ export default function VotePage() {
             */}
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
                 gap: 16,
                 marginBottom: 32,
                 alignItems: 'start',
@@ -556,7 +587,7 @@ export default function VotePage() {
                 <div
                   key={c.id}
                   className={`animate-fade-in-up`}
-                  style={{ animationDelay: `${i * 0.06}s` }}
+                  style={{ animationDelay: `${i * 0.06}s`, width: 'clamp(220px, 22%, 260px)', flexShrink: 0, flexGrow: 0 }}
                 >
                   <CandidateCard
                     candidate={c}
@@ -592,7 +623,7 @@ export default function VotePage() {
                       Pilihan Anda
                     </div>
                     <div style={{ fontWeight: 800, fontSize: 15, color: 'var(--color-text-primary)' }}>
-                      Paslon {selected.candidateNumber} — {selected.chairmanName}
+                      Kandidat {selected.candidateNumber} — {selected.chairmanName}
                     </div>
                   </div>
                 ) : (
