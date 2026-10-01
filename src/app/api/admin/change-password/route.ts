@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+import { createServerClient } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,34 +14,32 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Password baru minimal 6 karakter' }, { status: 400 })
     }
 
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+    // Ambil password yang berlaku: cek Supabase dulu, fallback ke env
+    const supabase = createServerClient()
+    const { data: settingRow } = await supabase
+      .from('app_settings')
+      .select('value')
+      .eq('key', 'admin_password')
+      .single()
+
+    const adminPassword = settingRow?.value ?? process.env.ADMIN_PASSWORD ?? 'admin123'
 
     if (currentPassword !== adminPassword) {
       return NextResponse.json({ error: 'Password lama tidak sesuai' }, { status: 401 })
     }
 
-    // Baca file .env.local
-    const envPath = path.join(process.cwd(), '.env.local')
-    let envContent = ''
-
-    if (fs.existsSync(envPath)) {
-      envContent = fs.readFileSync(envPath, 'utf-8')
-    }
-
-    // Update atau tambahkan ADMIN_PASSWORD
-    if (envContent.includes('ADMIN_PASSWORD=')) {
-      envContent = envContent.replace(
-        /^ADMIN_PASSWORD=.*$/m,
-        `ADMIN_PASSWORD=${newPassword}`
+    // Simpan password baru ke Supabase (upsert)
+    const { error: upsertError } = await supabase
+      .from('app_settings')
+      .upsert(
+        { key: 'admin_password', value: newPassword, updated_at: new Date().toISOString() },
+        { onConflict: 'key' }
       )
-    } else {
-      envContent += `\nADMIN_PASSWORD=${newPassword}`
+
+    if (upsertError) {
+      console.error('Upsert error:', upsertError)
+      return NextResponse.json({ error: 'Gagal menyimpan password baru' }, { status: 500 })
     }
-
-    fs.writeFileSync(envPath, envContent, 'utf-8')
-
-    // Update environment variable in-process agar langsung berlaku
-    process.env.ADMIN_PASSWORD = newPassword
 
     return NextResponse.json({ success: true })
   } catch (err) {

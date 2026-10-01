@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { signAdminSession } from '@/lib/auth'
+import { createServerClient } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { password } = body
 
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+    // Ambil password yang berlaku: cek Supabase dulu, fallback ke env
+    const supabase = createServerClient()
+    const { data: settingRow } = await supabase
+      .from('app_settings')
+      .select('value')
+      .eq('key', 'admin_password')
+      .single()
+
+    const adminPassword = settingRow?.value ?? process.env.ADMIN_PASSWORD ?? 'admin123'
 
     if (!password || password !== adminPassword) {
       return NextResponse.json(
